@@ -56,12 +56,25 @@
 		}
 		$flash = undefined;
 	});
+
+	const particles = Array.from({ length: 15 }).map(() => ({
+		top: Math.random() * 100,
+		left: Math.random() * 100,
+		duration: 5 + Math.random() * 10,
+		delay: Math.random() * 5
+	}));
 </script>
 
 <svelte:head>
 	<link rel="icon" href="/logo.png" />
 </svelte:head>
 <ModeWatcher />
+{#each particles as p (p)}
+	<div
+		class="absolute size-1 rounded-full bg-pink-200/40 blur-sm"
+		style="top: {p.top}%; left: {p.left}%; animation: float {p.duration}s infinite linear {p.delay}s"
+	></div>
+{/each}
 
 <Toaster position="bottom-right" richColors closeButton />
 

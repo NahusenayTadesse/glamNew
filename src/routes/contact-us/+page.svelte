@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { z } from 'zod';
 	import {
 		Card,
 		CardHeader,
@@ -9,15 +8,15 @@
 	} from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
 
-	import { IconBrandFacebook, IconBrandInstagram, IconBrandTiktok } from '@tabler/icons-svelte';
-	import { MailIcon, MessageCircleIcon, SendIcon, PhoneIcon } from '@lucide/svelte';
+	import { MailIcon, SendIcon, PhoneIcon, Send, Facebook, Instagram } from '@lucide/svelte';
 
 	import { superForm } from 'sveltekit-superforms/client';
 	import { toast } from 'svelte-sonner';
 	import InputComp from '$lib/formComponents/InputComp.svelte';
 	import LoadingBtn from '$lib/formComponents/LoadingBtn.svelte';
+	import Errors from '$lib/formComponents/Errors.svelte';
 	let { data } = $props();
-	const { form, errors, enhance, delayed, message } = superForm(data.form, {
+	const { form, errors, enhance, delayed, message, allErrors } = superForm(data.form, {
 		dataType: 'json'
 	});
 
@@ -26,25 +25,20 @@
 		{
 			name: 'Instagram',
 			url: 'https://www.instagram.com/lalobakerysolution?igsh=MTZ1eDNldHl3OW9iNw%3D%3D&utm_source=qr',
-			icon: IconBrandInstagram,
+			icon: Instagram,
 			color: 'hover:text-pink-500'
 		},
-		{
-			name: 'TikTok',
-			url: 'https://www.tiktok.com/@lalobakerysolution?_r=1&_t=ZM-91WtG5hY5VY',
-			icon: IconBrandTiktok,
-			color: 'hover:text-black dark:hover:text-white'
-		},
+
 		{
 			name: 'Facebook',
 			url: 'https://facebook.com',
-			icon: IconBrandFacebook,
+			icon: Facebook,
 			color: 'hover:text-blue-600'
 		},
 		{
 			name: 'Telegram',
 			url: 'https://t.me/LaloBakery',
-			icon: MessageCircleIcon,
+			icon: Send,
 			color: 'hover:text-blue-400'
 		}
 	];
@@ -64,7 +58,20 @@
 			href: 'https://wa.me/'
 		}
 	];
+
+	$effect(() => {
+		if ($message) {
+			if ($message.type === 'error') toast.error($message.text);
+			else {
+				toast.success($message.text);
+			}
+		}
+	});
 </script>
+
+<svelte:head>
+	<title>Contact Us - Glam Beauty and Spa</title>
+</svelte:head>
 
 <div class="min-h-dvh w-full bg-background text-foreground transition-colors">
 	<!-- Main Content -->
@@ -91,6 +98,8 @@
 					<CardContent>
 						<form class="space-y-6" action="?/contact" method="POST" use:enhance>
 							<!-- Name -->
+
+							<Errors allErrors={$allErrors} />
 							<InputComp
 								{form}
 								{errors}
@@ -112,7 +121,7 @@
 								type="tel"
 								{form}
 								{errors}
-								name="Phone"
+								name="phoneNumber"
 								label="Phone Number"
 								placeholder="+251 901020304"
 							/>
@@ -130,7 +139,7 @@
 								{form}
 								{errors}
 								type="textarea"
-								name="message"
+								name="contactMessage"
 								label="Message"
 								placeholder="Tell us more about your inquiry..."
 							/>

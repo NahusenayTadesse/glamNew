@@ -1,5 +1,13 @@
-import { mysqlTable, int, varchar, mysqlEnum, decimal, text } from 'drizzle-orm/mysql-core';
-import { secureFields, user } from './auth.schema';
+import {
+	mysqlTable,
+	int,
+	varchar,
+	mysqlEnum,
+	decimal,
+	text,
+	timestamp
+} from 'drizzle-orm/mysql-core';
+import { secureFields } from './auth.schema';
 
 export const paymentMethods = mysqlTable('payment_methods', {
 	id: int('id').primaryKey().autoincrement(),
@@ -99,6 +107,8 @@ export const orderItems = mysqlTable('order_items', {
 	productId: int('product_id').references(() => products.id),
 	quantity: int('quantity').notNull(),
 	price: decimal('price', { precision: 10, scale: 2 }).notNull(),
+	amount: varchar('amount', { length: 255 }).notNull(),
+
 	...secureFields
 });
 
@@ -143,6 +153,25 @@ export const recipeIngredients = mysqlTable('recipe_ingredients', {
 	recipeId: int('recipe_id').references(() => recipes.id),
 	name: varchar('name', { length: 255 }).notNull(),
 	amount: varchar('amount', { length: 100 })
+});
+
+export const prices = mysqlTable('prices', {
+	id: int('id').primaryKey().autoincrement(),
+	productId: int('product_id').references(() => products.id, { onDelete: 'cascade' }),
+	price: decimal('price', { precision: 10, scale: 2 }).notNull(),
+	amount: varchar('amount', { length: 100 }).notNull(),
+	quantity: int('quantity'),
+	reorderLevel: int('reorder_level')
+});
+
+export const contactMessages = mysqlTable('contact_messages', {
+	id: int('id').primaryKey().autoincrement(),
+	name: varchar('name', { length: 255 }).notNull(),
+	email: varchar('email', { length: 100 }).notNull(),
+	phone: varchar('phone', { length: 20 }),
+	subject: varchar('subject', { length: 255 }).notNull(),
+	message: text('message').notNull(),
+	createdAt: timestamp('created_at').defaultNow().notNull()
 });
 
 export * from './auth.schema';

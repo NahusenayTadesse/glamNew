@@ -1,49 +1,32 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
 	import {
 		MailIcon,
 		PhoneIcon,
 		MapPinIcon,
-		MessageCircleIcon,
-		MapPin,
-		SparklesIcon
+		Send,
+		Instagram,
+		Facebook,
+		MapPin
 	} from '@lucide/svelte';
-	let email = $state('');
-
-	const handleNewsletterSubmit = (e: Event) => {
-		e.preventDefault();
-		// Beauty brands often use "Join the Glam Club" or "Get 10% off your first treatment"
-		console.log('Glam Newsletter signup:', email);
-		email = '';
-	};
-
-	import { IconBrandFacebook, IconBrandInstagram, IconBrandTiktok } from '@tabler/icons-svelte';
 
 	const socialLinks = [
 		{
 			name: 'Instagram',
-			// Updated placeholder handles to reflect the brand
-			url: 'https://www.instagram.com/glambeautyspa',
-			icon: IconBrandInstagram,
+			url: 'https://www.instagram.com/lalobakerysolution?igsh=MTZ1eDNldHl3OW9iNw%3D%3D&utm_source=qr',
+			icon: Instagram,
 			color: 'hover:text-pink-500'
 		},
-		{
-			name: 'TikTok',
-			url: 'https://www.tiktok.com/@glambeautyspa',
-			icon: IconBrandTiktok,
-			color: 'hover:text-black dark:hover:text-white'
-		},
+
 		{
 			name: 'Facebook',
-			url: 'https://facebook.com/glambeautyspa',
-			icon: IconBrandFacebook,
+			url: 'https://facebook.com',
+			icon: Facebook,
 			color: 'hover:text-blue-600'
 		},
 		{
 			name: 'Telegram',
-			url: 'https://t.me/GlamBeautySpa',
-			icon: MessageCircleIcon,
+			url: 'https://t.me/LaloBakery',
+			icon: Send,
 			color: 'hover:text-blue-400'
 		}
 	];
@@ -51,17 +34,16 @@
 
 <footer class="border-t bg-card text-card-foreground">
 	<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-		<div class="mb-8 grid grid-cols-1 gap-12 md:grid-cols-3">
-			<div class="space-y-4">
-				<div class="flex items-center gap-2">
-					<SparklesIcon class="size-8 text-primary" />
-					<span class="text-xl font-bold tracking-tight">GLAM</span>
-				</div>
-				<h4 class="font-semibold text-primary">Beauty & Spa</h4>
-				<p class="max-w-xs text-sm text-foreground/70">
-					Dedicated to enhancing your natural beauty through expert care and premium wellness
-					treatments.
-				</p>
+		<!-- Newsletter Section -->
+
+		<!-- Footer Links Grid -->
+		<div
+			class="align-center mb-8 grid grid-cols-1 items-center justify-center gap-8 md:grid-cols-3"
+		>
+			<!-- Company Info -->
+			<div>
+				<img src="/logo.webp" class="w-30" alt="Glam Logo" />
+				<h4 class="mb-4 font-semibold">Glam Beauty and Spa</h4>
 
 				<div class="flex flex-col gap-3 pt-2 text-sm">
 					<a
@@ -90,36 +72,36 @@
 				</div>
 			</div>
 
-			<div class="md:pl-12">
+			<!-- Quick Links -->
+			<div class="lg:w-lg">
 				<h4 class="mb-4 font-semibold">Quick Links</h4>
-				<ul class="flex flex-col gap-3 text-sm">
+				<ul class="flex flex-col gap-2 text-sm">
 					<li>
-						<a href="/" class="text-foreground/70 transition-colors hover:text-primary">Home</a>
+						<a href="/" class="text-foreground/70 transition-colors hover:text-foreground">Home</a>
+					</li>
+					<li>
+						<a href="/shop" class="text-foreground/70 transition-colors hover:text-foreground"
+							>Shop</a
+						>
+					</li>
+					<li>
+						<a href="/about-us" class="text-foreground/70 transition-colors hover:text-foreground"
+							>About Us</a
+						>
 					</li>
 
 					<li>
-						<a href="/about-us" class="text-foreground/70 transition-colors hover:text-primary"
-							>Our Story</a
-						>
-					</li>
-					<li>
-						<a href="/shop" class="font-medium text-primary transition-colors hover:underline">
-							Shop</a
-						>
-					</li>
-					<li>
-						<a href="/contact-us" class="text-foreground/70 transition-colors hover:text-primary"
-							>Contact & Support</a
+						<a href="/contact-us" class="text-foreground/70 transition-colors hover:text-foreground"
+							>Contact Us</a
 						>
 					</li>
 				</ul>
 			</div>
 
-			<div class="space-y-4">
-				<h4 class="flex items-center gap-2 font-semibold">
-					<MapPin class="size-4" /> Find Us
-				</h4>
-				<div class="overflow-hidden rounded-2xl border bg-muted">
+			<!-- Customer Service -->
+			<div>
+				<h4 class="mb-4 flex gap-2 font-semibold"><MapPin /> Location</h4>
+				<section class="relative h-32 w-full">
 					<iframe
 						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.6200139503017!2d38.785857210079854!3d9.00706778929564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b851326f26c6d%3A0x5a311bfbc53bab46!2sGlam%20Beauty%20and%20Spa!5e0!3m2!1sen!2set!4v1772619451901!5m2!1sen!2set"
 						style="border:0;"
@@ -127,40 +109,61 @@
 						loading="lazy"
 						title="Spa Location Map"
 					></iframe>
-				</div>
-				<p class="text-xs text-foreground/50 italic">Open Monday — Sunday: 9:00 AM - 8:00 PM</p>
-			</div>
-		</div>
-
-		<div class="mt-12 border-t pt-8">
-			<div class="flex flex-col items-center justify-between gap-8 md:flex-row">
-				<div class="flex flex-col items-center gap-4">
-					<p class="text-xs font-medium tracking-widest text-foreground/50 uppercase">
-						Follow Our Journey
-					</p>
-					<div class="flex gap-3">
-						{#each socialLinks as social (social.url)}
-							<a
-								href={social.url}
-								target="_blank"
-								rel="noopener noreferrer"
-								class={[
-									'group flex items-center justify-center rounded-full border p-3 transition-all hover:border-primary hover:shadow-md',
-									social.color
-								]}
-								title={social.name}
-							>
-								<social.icon class="h-5 w-5 transition-transform group-hover:scale-110" />
-							</a>
-						{/each}
-					</div>
-				</div>
+				</section>
 			</div>
 
-			<div class="mt-12 border-t border-border/50 pt-8 text-center text-xs text-foreground/50">
-				<p>
-					© {new Date().getFullYear()} Glam Beauty & Spa. Handcrafted Elegance. All rights reserved.
-				</p>
+			<!-- Legal -->
+			<!-- <div>
+				<h4 class="mb-4 font-semibold">Legal</h4>
+				<ul class="flex flex-col gap-2 text-sm">
+					<li>
+						<a href="#" class="text-foreground/70 transition-colors hover:text-foreground"
+							>Privacy Policy</a
+						>
+					</li>
+					<li>
+						<a href="#" class="text-foreground/70 transition-colors hover:text-foreground"
+							>Terms of Service</a
+						>
+					</li>
+					<li>
+						<a href="#" class="text-foreground/70 transition-colors hover:text-foreground"
+							>Cookie Policy</a
+						>
+					</li>
+					<li>
+						<a href="#" class="text-foreground/70 transition-colors hover:text-foreground"
+							>Accessibility</a
+						>
+					</li>
+				</ul>
+			</div>
+		</div> -->
+
+			<!-- Social Links -->
+			<div class="flex flex-col items-center justify-between gap-4 border-t pt-8 md:flex-row">
+				<p class="text-sm text-foreground/70">Follow us on social media</p>
+				<div class="grid grid-cols-4 gap-3">
+					{#each socialLinks as social (social.url)}
+						<a
+							href={social.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							class={[
+								'flex flex-col items-center gap-2 rounded-lg border p-4 transition-all hover:border-primary hover:shadow-lg',
+								social.color
+							]}
+							title={social.name}
+						>
+							<social.icon class="h-6 w-6" />
+						</a>
+					{/each}
+				</div>
+			</div>
+
+			<!-- Copyright -->
+			<div class="mt-8 border-t pt-8 text-center text-sm text-foreground/70">
+				<p>&copy; {new Date().getFullYear()} Glam Beauty and Spa. All rights reserved.</p>
 			</div>
 		</div>
 	</div>

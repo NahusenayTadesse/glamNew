@@ -8,12 +8,12 @@
 		Banknote,
 		Plus,
 		Sheet,
+		Mail,
 		Loader,
 		CircleCheckBig,
 		OctagonMinus,
 		ListOrdered,
-		CookingPot,
-		Sparkle
+		CookingPot
 	} from '@lucide/svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import type { ComponentProps } from 'svelte';
@@ -49,6 +49,16 @@
 			]
 		},
 
+		{
+			title: 'Messages',
+			url: '/dashboard/messages',
+			icon: Mail
+		},
+		{
+			title: 'Reports',
+			url: '/dashboard/reports',
+			icon: ChartArea
+		},
 		{
 			title: 'Admin Panel',
 			url: '/dashboard/admin-panel',
@@ -106,12 +116,16 @@
 	>
 		<Sidebar.Group>
 			<Sidebar.GroupLabel>
-				<div class="flex flex-row items-center justify-center gap-4">
-					<Sparkle class="text-primary" />
-					<h4 class="text-center text-[16px]! text-foreground">Glam Beauty and Spa</h4>
-				</div></Sidebar.GroupLabel
+				<a
+					class="flex w-full flex-row items-center justify-start gap-4"
+					href="/"
+					title="Go to Website Home Page"
+					target="_blank"
+				>
+					<img src="/logo.webp" class=" h-auto w-32" alt="Logo" />
+				</a></Sidebar.GroupLabel
 			>
-			<Sidebar.GroupContent class="my-4">
+			<Sidebar.GroupContent class="my-4 mt-8">
 				<NavMain items={navigation} />
 				<!-- <Sidebar.Menu class="w-full gap-3">
 					{#each navigation as item (item.title)}
