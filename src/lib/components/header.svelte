@@ -23,9 +23,7 @@
 </script>
 
 <header
-	class="sticky {page.url.pathname === '/'
-		? 'hidden'
-		: ''} top-0 z-50 w-full bg-primary/20 px-2 py-2 backdrop-blur supports-backdrop-filter:bg-primary/20 lg:px-16"
+	class="sticky top-0 z-50 w-full bg-primary px-2 py-2 backdrop-blur supports-backdrop-filter:bg-primary lg:px-16"
 >
 	<div class="flex h-14 items-center justify-between px-4 md:px-6">
 		<!-- Logo/Title -->

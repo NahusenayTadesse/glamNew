@@ -13,7 +13,7 @@
 		CircleCheckBig,
 		OctagonMinus,
 		ListOrdered,
-		CookingPot
+		Images
 	} from '@lucide/svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 	import type { ComponentProps } from 'svelte';
@@ -24,6 +24,7 @@
 
 	const navigation = [
 		{ title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
+		{ title: 'Gallery and Video', url: '/dashboard/gallery', icon: Images },
 		{ title: 'Customers', url: '/dashboard/customers', icon: Users },
 		{
 			title: 'Orders',

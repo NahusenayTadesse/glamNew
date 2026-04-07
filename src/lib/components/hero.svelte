@@ -195,9 +195,9 @@
 				<Button
 					size="lg"
 					href="/contact-us"
-					class="group bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/40 transition hover:scale-105"
+					class="group bg-linear-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/40 transition hover:scale-105"
 				>
-					Book Appointment
+					Contact Us
 					<ArrowRightIcon class="ml-2 size-5 transition-transform group-hover:translate-x-1" />
 				</Button>
 				<Button size="lg" href="/shop" variant="secondary"><ShoppingBag /> Shop</Button>

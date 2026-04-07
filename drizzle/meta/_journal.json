@@ -22,6 +22,20 @@
       "when": 1773817701068,
       "tag": "0002_cultured_phalanx",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1775548714827,
+      "tag": "0003_thin_pixie",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1775560152550,
+      "tag": "0004_smiling_sleepwalker",
+      "breakpoints": true
     }
   ]
 }

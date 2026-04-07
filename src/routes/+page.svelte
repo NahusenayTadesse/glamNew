@@ -10,11 +10,24 @@
 	let product = $derived(data?.productList);
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import Hero from '$lib/components/hero.svelte';
+	import HeroSection from '$lib/components/heroSection.svelte';
 	import About from '$lib/components/about.svelte';
 	import Accordion from '$lib/components/accordion.svelte';
+	import Gallery from '$lib/components/gallery.svelte';
+
+	let src = $derived.by(() => {
+		const regex =
+			/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
+		const match = data?.video?.match(regex);
+		return match ? match[1] : '';
+	});
 </script>
 
-<Hero />
+<svelte:head>
+	<title>Home | Glam Beauty Salon</title>
+</svelte:head>
+
+<HeroSection {src} />
 <About />
 
 <!-- Main Content -->
@@ -41,5 +54,6 @@
 		<Carousel.Next />
 	</Carousel.Root>
 </main>
+<Gallery images={data?.gallery} title="Our Team" />
 
 <Accordion />

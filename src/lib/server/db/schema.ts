@@ -174,4 +174,14 @@ export const contactMessages = mysqlTable('contact_messages', {
 	createdAt: timestamp('created_at').defaultNow().notNull()
 });
 
+export const homeImages = mysqlTable('home_images', {
+	id: int('id').primaryKey().autoincrement(),
+	imageUrl: varchar('image_url', { length: 255 }).notNull()
+});
+
+export const youtubeUrl = mysqlTable('youtube_url', {
+	id: int('id').primaryKey().autoincrement(),
+	videoUrl: varchar('video_url', { length: 255 }).notNull()
+});
+
 export * from './auth.schema';

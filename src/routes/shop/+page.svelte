@@ -2,33 +2,38 @@
 	import ProductCard from '$lib/components/product-card.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Button } from '$lib/components/ui/button';
-	import { SearchIcon, XIcon } from '@lucide/svelte';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { SearchIcon, XIcon, SlidersHorizontal, X } from '@lucide/svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
+	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
+	import { buttonVariants } from '$lib/components/ui/button/index.js';
+	import { slide, fade } from 'svelte/transition';
+
 	let { data } = $props();
 
-	// Set app hook
-
-	// Search state
 	let searchQuery = $state('');
 
-	// Price range state
-
-	// Category filter state
 	let selectedCategories = $state<string[]>([]);
 	let minPrice = $state(0);
-	let maxPrice = $state(
-		Math.max(
-			...(data?.productList.map((p) =>
-				typeof p.price === 'number' ? p.price : parseFloat(p.price as string)
-			) ?? [0])
-		)
-	);
+	let maxPrice = $derived(Math.max(...data.productList.map((p) => Number(p.price))));
+
+	// Add this effect to "catch" the data when it loads
+	$effect(() => {
+		if (data?.productList.length > 0) {
+			const actualMax = Math.max(...data.productList.map((p) => Number(p.price)));
+			// Only auto-initialize once
+			if (maxPrice === 10000) {
+				maxPrice = actualMax;
+			}
+		}
+	});
 
 	// Get unique categories from products
 	const categories = $derived(
 		Array.from(new Set(data?.productList.map((p) => p.category).filter(Boolean))).sort()
 	);
+
+	let discounted = $state(false);
 
 	// Filtered products based on search query, price range, and categories
 	const filteredProducts = $derived(
@@ -37,14 +42,15 @@
 				product.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
 				product.category?.toLowerCase().includes(searchQuery.toLowerCase());
 
-			const price =
-				typeof product.price === 'number' ? product.price : parseFloat(product.price as string);
+			const isDiscount =
+				!discounted || (product.discountPercentage && product.discountPercentage > 0);
+			const price = Number(product.price);
 			const matchesPrice = price >= minPrice && price <= maxPrice;
 
 			const matchesCategory =
 				selectedCategories.length === 0 || selectedCategories.includes(product.category || '');
 
-			return matchesSearch && matchesPrice && matchesCategory;
+			return matchesSearch && matchesPrice && matchesCategory && isDiscount;
 		})
 	);
 
@@ -69,6 +75,7 @@
 
 	// Reset all filters
 	const resetFilters = () => {
+		discounted = false;
 		searchQuery = '';
 		minPrice = 0;
 		maxPrice = maxProductPrice;
@@ -77,12 +84,50 @@
 
 	// Check if any filters are active
 	const hasActiveFilters = $derived(
-		searchQuery !== '' ||
+		discounted ||
+			searchQuery !== '' ||
 			minPrice > 0 ||
 			maxPrice < maxProductPrice ||
 			selectedCategories.length > 0
 	);
+	import { isMobile } from '$lib/global.svelte';
+
+	let Icon = $derived(filter ? X : SlidersHorizontal);
+
+	let filter = $state(isMobile() ? false : true);
+	const onDiscountedChange = (checked: boolean) => {
+		discounted = checked;
+	};
 </script>
+
+<svelte:head>
+	<title>Shop - Amy Bakes</title>
+
+	<meta
+		name="description"
+		content="Shop the Amy Bakes collection. From our signature 'Less Guilt' muffins to authentic American-style chewy cookies, experience quality baked with business precision."
+	/>
+	<meta
+		name="keywords"
+		content="buy cookies online, healthy muffins, Amy Bakes shop, American style cookies, freshly baked goods, Melela Partners treats"
+	/>
+
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Shop Amy Bakes: The Business of Baking" />
+	<meta
+		property="og:description"
+		content="Treat yourself to our 'Less Guilt' muffins and authentic American-style chewy cookies. Hand-crafted with heart and precision."
+	/>
+	<meta property="og:image" content="/files/cookie.webp" />
+
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:title" content="Shop Amy Bakes | Freshly Baked Cookies & Muffins" />
+	<meta
+		property="twitter:description"
+		content="Experience the perfect balance of heart and precision. Shop our signature baked goods online."
+	/>
+	<meta property="twitter:image" content="/files/cookie.webp" />
+</svelte:head>
 
 <div class="min-h-dvh bg-background pb-8 text-foreground transition-colors duration-300">
 	<!-- Header -->
@@ -91,7 +136,7 @@
 			<div class="mb-6 flex items-center justify-between">
 				<div>
 					<h1 class="text-3xl font-bold">Shop</h1>
-					<p class="mt-1 text-muted-foreground">Browse our collection of products</p>
+					<p class="mt-1 text-muted-foreground">Browse our collection of Baked Goods</p>
 				</div>
 			</div>
 
@@ -109,24 +154,43 @@
 	</header>
 
 	<!-- Main Content -->
-	<main class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+	<main class="mx-auto max-w-full px-4 py-12 sm:px-6 lg:px-8">
 		<div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
 			<!-- Filters Sidebar -->
-			<aside class="lg:col-span-1">
-				<div class="sticky top-24 space-y-6">
-					<!-- Filter Header -->
-					<div class="flex items-center justify-between">
-						<h2 class="text-lg font-semibold">Filters</h2>
-						{#if hasActiveFilters}
-							<Button variant="ghost" size="sm" onclick={resetFilters} class="h-8 text-xs">
-								<XIcon size={14} />
-								Reset
-							</Button>
-						{/if}
-					</div>
 
-					<!-- Price Range Filter -->
-					<div class="flex flex-col gap-4 border-b pb-6">
+			{#if isMobile()}
+				<Tooltip.Provider>
+					<Tooltip.Root>
+						<Tooltip.Trigger class={buttonVariants({ variant: 'outline' })}>
+							{#snippet child(props)}
+								<Button onclick={() => (filter = !filter)} class="w-32" {...props}>
+									<Icon />Filters
+								</Button>
+							{/snippet}
+						</Tooltip.Trigger>
+						<Tooltip.Content>
+							<p>Filter Products By Categories</p>
+						</Tooltip.Content>
+					</Tooltip.Root>
+				</Tooltip.Provider>
+			{/if}
+
+			{#if filter}
+				<aside class="lg:col-span-1" transition:fade>
+					<div class="sticky top-24 space-y-6">
+						<!-- Filter Header -->
+						<div class="flex items-center justify-between">
+							<h2 class="text-lg font-semibold">Filters</h2>
+							{#if hasActiveFilters}
+								<Button variant="ghost" size="sm" onclick={resetFilters} class="h-8 text-xs">
+									<XIcon size={14} />
+									Reset
+								</Button>
+							{/if}
+						</div>
+
+						<!-- Price Range Filter -->
+						<!-- <div class="flex flex-col gap-4 border-b pb-6">
 						<h3 class="text-sm font-medium">Price Range</h3>
 						<div class="space-y-3">
 							<div class="flex gap-2">
@@ -169,27 +233,45 @@
 								${minPrice.toFixed(0)} - ${maxPrice.toFixed(0)}
 							</p>
 						</div>
-					</div>
+					</div> -->
 
-					<!-- Category Filter -->
-					<div class="flex flex-col gap-4">
-						<h3 class="text-sm font-medium">Categories</h3>
-						{#each categories as category (category)}
-							<div class="flex items-center gap-3">
-								<Checkbox
-									id={`category-${category}`}
-									checked={selectedCategories.includes(category)}
-									onCheckedChange={() => toggleCategory(category)}
-									class="cursor-pointer"
-								/>
-								<Label for={`category-${category}`} class="flex-1 cursor-pointer text-sm">
-									{category}
-								</Label>
+						{#if data?.discountedProducts.length > 0}
+							<div class="flex flex-col gap-4">
+								<h3 class="text-sm font-medium">Discounts</h3>
+								<div class="flex items-center space-x-2">
+									<Checkbox
+										id="discounted"
+										bind:checked={discounted}
+										onCheckedChange={onDiscountedChange}
+									/>
+									<Label for="discounted">Discounted Products Only</Label>
+								</div>
+								<!-- <Button onclick={() => (discounted = !discounted)}>
+								Toggle Discounts ({discounted ? 'On' : 'Off'})
+							</Button> -->
 							</div>
-						{/each}
+						{/if}
+
+						<!-- Category Filter -->
+						<div class="flex flex-col gap-4">
+							<h3 class="text-sm font-medium">Categories</h3>
+							{#each categories as category (category)}
+								<div class="flex items-center gap-3" transition:slide|global>
+									<Checkbox
+										id={`category-${category}`}
+										checked={selectedCategories.includes(category)}
+										onCheckedChange={() => toggleCategory(category)}
+										class="cursor-pointer"
+									/>
+									<Label for={`category-${category}`} class="flex-1 cursor-pointer text-sm">
+										{category}
+									</Label>
+								</div>
+							{/each}
+						</div>
 					</div>
-				</div>
-			</aside>
+				</aside>
+			{/if}
 
 			<!-- Products Grid -->
 			<div class="lg:col-span-3">
@@ -199,7 +281,7 @@
 						Showing <span class="font-semibold text-foreground">{resultCount}</span>
 						{resultCount === 1 ? 'product' : 'products'}
 						{searchQuery && `for "${searchQuery}"`}
-						{selectedCategories.length > 0 && `in ${selectedCategories.join(', ')}`}
+						<!-- {selectedCategories.length > 0 && `in ${selectedCategories.join(', ')}`} -->
 					</p>
 				</div>
 
