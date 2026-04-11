@@ -27,6 +27,7 @@
 	import Cart from '$lib/components/floating-cart/cart.svelte';
 	import Header from '$lib/components/header.svelte';
 	import Footer from '$lib/components/footer.svelte';
+	import Background from '$lib/components/background.svelte';
 
 	// This initializes the class and puts it into Svelte's context
 	setCart();
@@ -96,6 +97,7 @@
 
 	<Footer />
 	<Cart />
+	<Background />
 {:else}
 	{@render children()}
 {/if}

@@ -4,10 +4,31 @@
 
 	import { fly, fade, scale } from 'svelte/transition';
 
-	let { src }: { src: string } = $props();
+	let { src, images }: { src: string; images: string[] } = $props();
+
+	let currentIndex = $state(0);
+	import { onMount } from 'svelte';
+	onMount(() => {
+		const interval = setInterval(() => {
+			currentIndex = (currentIndex + 1) % images.length;
+		}, 5000); // Change image every 5 seconds
+		return () => clearInterval(interval);
+	});
 </script>
 
 <section class="relative min-h-dvh w-full overflow-hidden bg-primary">
+	<div class="absolute inset-0 z-0">
+		{#each images as img, i (img)}
+			{#if currentIndex === i}
+				<div
+					transition:fade={{ duration: 1500 }}
+					class="absolute inset-0 scale-110 bg-cover bg-center bg-no-repeat transition-transform duration-5000"
+					style="background-image: url('/files/{img}');"
+				></div>
+			{/if}
+		{/each}
+		<div class="absolute inset-0 bg-primary/30 backdrop-brightness-75 dark:bg-black/60"></div>
+	</div>
 	<div class="pointer-events-none absolute inset-0 overflow-hidden">
 		<div
 			class="absolute top-20 right-1/3 size-72 rounded-full bg-primary-foreground/10 blur-3xl"
@@ -27,14 +48,14 @@
 					class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"
 				>
 					<SparklesIcon class="size-4 text-gray-800" />
-					<span class="text-sm font-medium text-gray-800">Luxury Beauty Experience</span>
+					<span class="text-sm font-medium text-white">Luxury Beauty Experience</span>
 				</div>
 
 				<!-- Heading -->
 				<div transition:fly={{ y: 40, duration: 700 }}>
 					<h1 class="text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
 						<span
-							class="animate-shimmer bg-linear-to-r from-pink-400 via-gray-900 to-purple-400 bg-clip-text text-transparent"
+							class="animate-shimmer bg-linear-to-r from-pink-400 via-gray-100 to-purple-400 bg-clip-text text-transparent"
 						>
 							Glam Beauty
 						</span>
@@ -45,8 +66,8 @@
 
 				<!-- Subtitle -->
 				<div transition:fade={{ delay: 200, duration: 600 }} class="space-y-4">
-					<p class="text-xl font-semibold text-gray-700 sm:text-2xl">Glow Beyond Expectations</p>
-					<p class="mx-auto max-w-2xl text-lg text-gray-700">
+					<p class="text-xl font-semibold text-white sm:text-2xl">Glow Beyond Expectations</p>
+					<p class="mx-auto max-w-2xl text-lg text-gray-100">
 						Indulge in premium hair, skin, and spa treatments designed to elevate your natural
 						beauty. Experience elegance, relaxation, and transformation in every visit.
 					</p>

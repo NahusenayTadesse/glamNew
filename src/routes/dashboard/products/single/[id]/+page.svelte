@@ -180,67 +180,35 @@
 
 		<Delete redirect="/dashboard/products" />
 	</div>
-	{#if editForm === false}
-		{#if data.priceList.length === 0}
-			<div
-				class="mx-auto my-12 flex w-full max-w-2xl flex-col items-center rounded-xl border border-amber-200 bg-amber-50/50 p-8 text-center backdrop-blur-sm"
-			>
-				<div
-					class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-amber-600"
-				>
-					<Tag class="h-6 w-6" />
-				</div>
-
-				<h3 class="text-lg font-bold text-amber-900">Pricing Required</h3>
-				<p class="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-amber-800/80">
-					This product is currently hidden from customers. Add at least one price to enable
-					purchasing.
-				</p>
-
-				<Button
-					variant="outline"
-					onclick={scrollToPrices}
-					class="mt-6 border-amber-300 bg-white text-amber-700 hover:bg-amber-100 hover:text-amber-800"
-				>
-					<Plus class="mr-2 h-4 w-4" />
-					Add Pricing Structure
-				</Button>
+	{#if data.priceList.length === 0}
+		<div
+			class="mx-auto my-12 flex w-1/2 flex-col items-center rounded-xl border border-destructive p-8 text-center text-destructive backdrop-blur-sm"
+		>
+			<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full">
+				<Tag class="h-6 w-6" />
 			</div>
-		{/if}
+
+			<h3 class="text-lg font-bold">Pricing Required</h3>
+			<p class="mx-auto mt-2 max-w-sm text-sm leading-relaxed">
+				This product is currently hidden from customers. Add at least one price to enable
+				purchasing.
+			</p>
+
+			<Button variant="default" class="mt-4" onclick={scrollToPrices}>
+				<Plus class="mr-2 h-4 w-4" />
+				Add Pricing Structure
+			</Button>
+		</div>
+	{/if}
+	{#if editForm === false}
 		<div class="w-full p-4"><SingleTable {singleTable} /></div>
 	{/if}
 	{#if editForm}
-		{#if data.priceList.length === 0}
-			<div
-				class="mx-auto my-12 flex w-full max-w-2xl flex-col items-center rounded-xl border border-amber-200 bg-amber-50/50 p-8 text-center backdrop-blur-sm"
-			>
-				<div
-					class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-amber-600"
-				>
-					<Tag class="h-6 w-6" />
-				</div>
-
-				<h3 class="text-lg font-bold text-amber-900">Pricing Required</h3>
-				<p class="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-amber-800/80">
-					This product is currently hidden from customers. Add at least one price to enable
-					purchasing.
-				</p>
-
-				<Button
-					variant="outline"
-					onclick={scrollToPrices}
-					class="mt-6 border-amber-300 bg-white text-amber-700 hover:bg-amber-100 hover:text-amber-800"
-				>
-					<Plus class="mr-2 h-4 w-4" />
-					Add Pricing Structure
-				</Button>
-			</div>
-		{/if}
 		<div class="w-full p-4">
 			<form
 				action="?/editProduct"
 				use:enhance
-				class="flex w-full flex-col items-start justify-start gap-4 lg:w-1/2"
+				class="flex w-full flex-col items-start justify-start gap-4 lg:w-full"
 				id="edit"
 				method="post"
 				enctype="multipart/form-data"
@@ -333,7 +301,7 @@
 <div id="price-section-anchor" class="mx-auto my-12 px-4 pt-12 sm:px-6 lg:px-4">
 	{#key data?.priceList}
 		<div class="mb-6 flex flex-col gap-4 border-b border-gray-100 pb-4">
-			<h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Price List</h1>
+			<h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Price List</h1>
 			<div class="w-sm"><AddPrice data={data?.priceAdd} /></div>
 			{#if data.priceList.length === 0}
 				<p class="animate-pulse text-destructive">No prices available for this product.</p>
@@ -356,7 +324,7 @@
 			<nav class="mb-2 text-xs font-medium tracking-wider text-gray-400 uppercase">
 				Gallery Images
 			</nav>
-			<h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+			<h1 class="text-3xl font-bold tracking-tight sm:text-4xl">
 				{data.product.name}
 			</h1>
 		</div>
