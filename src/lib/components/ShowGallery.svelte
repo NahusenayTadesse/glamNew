@@ -1,137 +1,81 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import Gallery from '$lib/components/gallery.svelte';
+	import { fade, fly, scale } from 'svelte/transition';
+	import { elasticOut, backOut } from 'svelte/easing';
+	import Gallery from './gallery.svelte';
 
-	let { images, title }: { images: string[]; title: string } = $props();
+	let { title = 'The Masterpiece Collection', images = [] } = $props();
 
-	let visible = $state(false);
-	let sectionRef = $state<HTMLElement | null>(null);
-
-	onMount(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) visible = true;
-			},
-			{ threshold: 0.15 }
-		);
-		if (sectionRef) observer.observe(sectionRef);
-		return () => observer.disconnect();
-	});
+	// A little state for a "sparkle" effect on hover
+	let isHovered = $state(false);
 </script>
 
-<section bind:this={sectionRef} class="relative overflow-hidden bg-stone-50 px-4 py-24">
-	<!-- Ambient background blobs -->
-	<div class="pointer-events-none absolute inset-0 overflow-hidden">
-		<div class="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-rose-100/60 blur-3xl"></div>
-		<div class="absolute -right-24 -bottom-24 h-80 w-80 rounded-full bg-pink-100/50 blur-3xl"></div>
-		<div
-			class="absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-stone-200/40 blur-2xl"
-		></div>
-	</div>
-
-	<!-- Subtle grid texture -->
+<div
+	class="relative min-h-screen overflow-hidden bg-[#fffafa] px-6 py-24 transition-colors duration-700 dark:bg-[#0a0a0a]"
+	onmouseenter={() => (isHovered = true)}
+	onmouseleave={() => (isHovered = false)}
+>
 	<div
-		class="pointer-events-none absolute inset-0"
-		style="background-image: radial-gradient(circle, #d6d3d1 1px, transparent 1px); background-size: 32px 32px; opacity: 0.25;"
+		class="pointer-events-none absolute top-[-10%] right-[-5%] h-[500px] w-[500px] animate-pulse rounded-full bg-pink-200/40 blur-[120px] transition-transform duration-1000 dark:bg-pink-900/10"
+		style:transform={isHovered ? 'scale(1.1) translate(-20px, 20px)' : 'scale(1)'}
+	></div>
+	<div
+		class="pointer-events-none absolute bottom-[-10%] left-[-5%] h-[600px] w-[600px] rounded-full bg-rose-100/30 blur-[150px] dark:bg-rose-900/5"
 	></div>
 
-	<div class="relative mx-auto max-w-6xl">
-		<!-- Section header -->
-		<div
-			class="mb-16 flex flex-col items-center text-center transition-all duration-700 ease-out"
-			style="opacity: {visible ? 1 : 0}; transform: translateY({visible ? 0 : 28}px);"
-		>
-			<!-- Eyebrow label -->
-			<div class="mb-5 flex items-center gap-3">
-				<span class="h-px w-12 bg-rose-300"></span>
-				<span class="font-mono text-xs tracking-[0.25em] text-rose-400 uppercase">
-					Trusted by many
-				</span>
-				<span class="h-px w-12 bg-rose-300"></span>
-			</div>
+	<div class="relative z-10 mx-auto max-w-7xl">
+		<header class="relative mb-20 text-center">
+			{#if isHovered}
+				<div
+					transition:scale={{ duration: 600, easing: elasticOut, start: 0.5 }}
+					class="mb-4 flex items-center justify-center gap-4"
+				>
+					<div class="h-[2px] w-8 rounded-full bg-pink-300 dark:bg-pink-800"></div>
+					<span class="text-[10px] font-black tracking-[0.4em] text-pink-400 uppercase"
+						>✨ Lovely ✨</span
+					>
+					<div class="h-[2px] w-8 rounded-full bg-pink-300 dark:bg-pink-800"></div>
+				</div>
+			{:else}
+				<div in:fade class="mb-4 flex items-center justify-center gap-4">
+					<div class="h-[1px] w-12 bg-pink-200 dark:bg-pink-800"></div>
+					<span class="text-xs font-bold tracking-[0.3em] text-pink-500 uppercase">Est. 2024</span>
+					<div class="h-[1px] w-12 bg-pink-200 dark:bg-pink-800"></div>
+				</div>
+			{/if}
 
-			<!-- Main heading -->
-			<h2
-				class="font-serif text-5xl leading-tight font-light tracking-tight text-zinc-800 sm:text-6xl"
-				style="font-family: 'Playfair Display', 'Georgia', serif;"
+			<h1
+				in:fly={{ y: 30, duration: 1000, easing: backOut }}
+				class="mb-6 font-serif text-6xl font-extralight tracking-tight text-zinc-900 md:text-7xl dark:text-zinc-100"
 			>
-				Our
-				<em class="text-rose-400 italic not-italic" style="font-style: italic;">Clients</em>
-			</h2>
+				{title}<span class="text-pink-400">.</span>
+			</h1>
 
-			<!-- Ornamental divider -->
-			<div class="mt-6 flex items-center gap-2">
-				<span class="h-px w-16 bg-zinc-300"></span>
-				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="text-rose-300">
-					<path
-						d="M8 0 L9.5 6.5 L16 8 L9.5 9.5 L8 16 L6.5 9.5 L0 8 L6.5 6.5 Z"
-						fill="currentColor"
-					/>
-				</svg>
-				<span class="h-px w-16 bg-zinc-300"></span>
-			</div>
-
-			<!-- Subline -->
-			<p class="mt-5 max-w-md text-base leading-relaxed text-zinc-500">
-				Moments of beauty, captured. A glimpse into the transformations we create every day.
+			<p
+				in:fade={{ delay: 400, duration: 1000 }}
+				class="mx-auto max-w-xl leading-relaxed font-light text-zinc-500 dark:text-zinc-400"
+			>
+				Where precision meets <span class="text-pink-400/80 italic">passion</span>. Explore our
+				curated selection of signature transformations.
 			</p>
-		</div>
+		</header>
 
-		<!-- Gallery wrapper -->
-		<div
-			class="transition-all delay-200 duration-700 ease-out"
-			style="opacity: {visible ? 1 : 0}; transform: translateY({visible ? 0 : 20}px);"
-		>
-			<!-- Decorative corner accents -->
-			<div class="relative rounded-2xl">
-				<span
-					class="absolute -top-2 -left-2 h-6 w-6 rounded-tl-md border-t-2 border-l-2 border-rose-300"
-				></span>
-				<span
-					class="absolute -top-2 -right-2 h-6 w-6 rounded-tr-md border-t-2 border-r-2 border-rose-300"
-				></span>
-				<span
-					class="absolute -bottom-2 -left-2 h-6 w-6 rounded-bl-md border-b-2 border-l-2 border-rose-300"
-				></span>
-				<span
-					class="absolute -right-2 -bottom-2 h-6 w-6 rounded-br-md border-r-2 border-b-2 border-rose-300"
-				></span>
-
-				<Gallery {images} {title} />
-			</div>
-		</div>
-
-		<!-- Footer flourish -->
-		<div
-			class="mt-16 flex flex-col items-center gap-4 transition-all delay-300 duration-700 ease-out"
-			style="opacity: {visible ? 1 : 0}; transform: translateY({visible ? 0 : 16}px);"
-		>
-			<div class="flex items-center gap-2 text-zinc-400">
-				<svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-					<path
-						d="M8 0 L9.5 6.5 L16 8 L9.5 9.5 L8 16 L6.5 9.5 L0 8 L6.5 6.5 Z"
-						fill="currentColor"
-						opacity="0.4"
-					/>
-				</svg>
-				<span class="font-mono text-xs tracking-widest text-zinc-400 uppercase">Est. 2018</span>
-				<svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-					<path
-						d="M8 0 L9.5 6.5 L16 8 L9.5 9.5 L8 16 L6.5 9.5 L0 8 L6.5 6.5 Z"
-						fill="currentColor"
-						opacity="0.4"
-					/>
-				</svg>
-			</div>
+		<div in:fly={{ y: 40, delay: 600, duration: 1200, easing: cubicOut }} class="hover-float">
+			<Gallery {images} {title} bento />
 		</div>
 	</div>
-</section>
+</div>
 
-<!-- Load Playfair Display from Google Fonts -->
-<svelte:head>
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link
-		href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
-		rel="stylesheet"
-	/>
-</svelte:head>
+<style>
+	/* A gentle floating animation for the whole gallery */
+	.hover-float {
+		transition: transform 0.5s ease-in-out;
+	}
+	.hover-float:hover {
+		transform: translateY(-8px);
+	}
+
+	/* Soften the font if you have a serif import, otherwise standard serif is fine */
+	h1 {
+		text-wrap: balance;
+	}
+</style>

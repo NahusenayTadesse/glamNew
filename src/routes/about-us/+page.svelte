@@ -6,41 +6,90 @@
 	import { BuildingIcon, CoffeeIcon, LeafIcon, BrushIcon } from '@lucide/svelte';
 	import { PhoneIcon } from '@lucide/svelte';
 
-	import {
-		Card,
-		CardContent,
-		CardDescription,
-		CardHeader,
-		CardTitle
-	} from '$lib/components/ui/card';
+	let { data } = $props();
+
+	import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
+	import UniqueGallery from '$lib/components/uniqueGallery.svelte';
+
+	const services = [
+		{
+			title: 'Hair Artistry',
+			icon: ScissorsIcon,
+			description: 'Transform your look with expert precision and modern styling.',
+			items: [
+				'Precision cuts and bespoke styling',
+				'Advanced coloring & balayage',
+				'Keratin and restorative treatments',
+				'Bridal and special event styling'
+			]
+		},
+		{
+			title: 'Spa & Wellness',
+			icon: Flower2Icon,
+			description: 'Relax, restore, and reconnect with your inner calm.',
+			items: [
+				'Deep tissue and Swedish massage',
+				'Organic body scrubs and wraps',
+				'Aromatherapy sessions',
+				'Steam room and relaxation lounge'
+			]
+		},
+		{
+			title: 'Advanced Skincare',
+			icon: SparklesIcon,
+			description: 'Glow with treatments backed by science and care.',
+			items: [
+				'Hydrating and anti-aging facials',
+				'Microdermabrasion & chemical peels',
+				'Acne and hyperpigmentation therapy',
+				'Dermatologist-approved products'
+			]
+		},
+		{
+			title: 'Nails & Makeup',
+			icon: BrushIcon,
+			description: 'Perfect the details that complete your look.',
+			items: [
+				'Luxury manicures and pedicures',
+				'Gel and acrylic nail extensions',
+				'Professional HD makeup',
+				'Eyelash extensions & brow shaping'
+			]
+		}
+	];
 </script>
 
 <section
-	class="relative overflow-hidden bg-linear-to-br from-primary/20 via-accent/10 to-background px-4 py-20 sm:py-32"
+	class="relative h-9/10 overflow-hidden bg-primary bg-cover bg-center px-4 py-20 sm:py-32"
+	style="background-image: url('/files/{data?.gallery[
+		Math.floor(Math.random() * data?.gallery?.length)
+	]}')"
 >
-	<div class="absolute inset-0 overflow-hidden">
+	<div class="absolute inset-0 bg-black/60 backdrop-brightness-75 dark:bg-black/60"></div>
+
+	<!-- <div class="absolute inset-0 overflow-hidden">
 		<div class="absolute -top-40 -right-40 size-80 rounded-full bg-primary/10 blur-3xl"></div>
 		<div class="absolute -bottom-40 -left-40 size-80 rounded-full bg-accent/10 blur-3xl"></div>
-	</div>
+	</div> -->
 
 	<div class="relative mx-auto max-w-4xl">
 		<div class="space-y-6 text-center">
-			<div
-				class="inline-block rounded-full bg-primary/30 px-4 py-2 text-sm font-medium text-foreground"
-			>
+			<div class="inline-block rounded-full bg-primary/30 px-4 py-2 text-sm font-medium text-white">
 				Since 2011 • Redefining Elegance & Wellness
 			</div>
 
-			<h1 class="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+			<h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
 				Reveal Your Inner Radiance
 			</h1>
 
-			<p class="mx-auto max-w-2xl text-lg text-foreground/70 sm:text-xl">
+			<p class="mx-auto max-w-2xl text-lg text-white/70 sm:text-xl">
 				Glam Beauty & Spa offers premium skincare, expert hair styling, and rejuvenating spa
 				treatments designed to help you look and feel your absolute best.
 			</p>
 
-			<div class="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
+			<div
+				class="flex w-64 flex-col justify-center gap-4 justify-self-center pt-4 sm:flex-row lg:w-full"
+			>
 				<Button size="lg" href="/shop" class="gap-2">
 					Explore Our Products
 					<ArrowRightIcon class="size-4" />
@@ -59,7 +108,7 @@
 					class="aspect-square overflow-hidden rounded-2xl bg-linear-to-br from-primary/20 to-accent/20"
 				>
 					<img
-						src="$staticServer/placeholder.svg?size=square"
+						src="/files/{data?.gallery[Math.floor(Math.random() * data?.gallery?.length)]}"
 						alt="Glam Beauty and Spa Interior"
 						class="h-full w-full object-cover"
 					/>
@@ -101,11 +150,17 @@
 	</div>
 </section>
 
-<section class="bg-gradient-to-b from-transparent via-primary/5 to-transparent px-4 py-20 sm:py-32">
+<section
+	class="relative z-1 bg-cover bg-center px-4 py-20 sm:py-32"
+	style="background-image: url('/files/{data?.gallery[
+		Math.floor(Math.random() * data?.gallery?.length)
+	]}')"
+>
+	<div class="absolute inset-0 -z-1 bg-black/60 backdrop-brightness-75 dark:bg-black/60"></div>
 	<div class="mx-auto max-w-5xl">
 		<div class="mb-16 text-center">
-			<h2 class="mb-4 text-3xl font-bold sm:text-4xl">Why Choose Glam?</h2>
-			<p class="mx-auto max-w-2xl text-lg text-foreground/70">
+			<h2 class="mb-4 text-3xl font-bold text-white sm:text-4xl">Why Choose Glam?</h2>
+			<p class="mx-auto max-w-2xl text-lg text-white/70">
 				We pride ourselves on the three pillars of the Glam experience
 			</p>
 		</div>
@@ -165,157 +220,92 @@
 	</div>
 </section>
 
-<section class="px-4 py-20 sm:py-32">
+<section class="relative overflow-hidden px-4 py-24 sm:py-32">
+	<!-- Background Glow -->
+	<div class="absolute inset-0 -z-10">
+		<div
+			class="absolute top-0 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-primary/20 blur-3xl"
+		></div>
+		<div
+			class="absolute right-0 bottom-0 h-[400px] w-[400px] rounded-full bg-accent/20 blur-3xl"
+		></div>
+	</div>
+
 	<div class="mx-auto max-w-5xl">
-		<div class="mb-16 text-center">
-			<h2 class="mb-4 text-3xl font-bold sm:text-4xl">Our Service Menu</h2>
+		<!-- Header -->
+		<div class="mb-20 text-center">
+			<h2 class="mb-6 text-4xl font-bold tracking-tight sm:text-5xl">
+				<span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+					Our Service Menu
+				</span>
+			</h2>
 			<p class="mx-auto max-w-2xl text-lg text-foreground/70">
-				A comprehensive suite of beauty and wellness treatments
+				Indulge in a curated collection of beauty and wellness experiences crafted to elevate your
+				confidence and glow.
 			</p>
 		</div>
 
-		<div class="grid gap-8 md:grid-cols-2">
-			<Card
-				class="hover:shadow-lg-lg hover:shadow-lg-primary/10 border-primary/20 transition-all duration-300"
-			>
-				<CardHeader>
-					<div class="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
-						<ScissorsIcon class="size-6 text-primary" />
+		<!-- Grid -->
+		<div class="grid gap-10 md:grid-cols-2">
+			{#each services as service}
+				<Card
+					class="group relative overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20"
+				>
+					<!-- Glow on hover -->
+					<div
+						class="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+					>
+						<div
+							class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10"
+						></div>
 					</div>
-					<CardTitle>Hair Artistry</CardTitle>
-				</CardHeader>
-				<CardContent class="space-y-3">
-					<p class="text-foreground/70">Professional hair care services including:</p>
-					<ul class="flex flex-col gap-2 text-sm text-foreground/70">
-						<li class="flex gap-2">
-							<span class="font-bold text-primary">•</span>
-							<span>Precision cuts and bespoke styling</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-primary">•</span>
-							<span>Advanced coloring & balayage</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-primary">•</span>
-							<span>Keratin and restorative treatments</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-primary">•</span>
-							<span>Bridal and special event styling</span>
-						</li>
-					</ul>
-				</CardContent>
-			</Card>
 
-			<Card
-				class="hover:shadow-lg-lg hover:shadow-lg-primary/10 border-primary/20 transition-all duration-300"
-			>
-				<CardHeader>
-					<div class="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
-						<Flower2Icon class="size-6 text-primary" />
-					</div>
-					<CardTitle>Spa & Wellness</CardTitle>
-				</CardHeader>
-				<CardContent class="space-y-3">
-					<p class="text-foreground/70">Escape the stress of daily life with:</p>
-					<ul class="flex flex-col gap-2 text-sm text-foreground/70">
-						<li class="flex gap-2">
-							<span class="font-bold text-accent">•</span>
-							<span>Deep tissue and Swedish massage</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-accent">•</span>
-							<span>Organic body scrubs and wraps</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-accent">•</span>
-							<span>Aromatherapy sessions</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-accent">•</span>
-							<span>Steam room and relaxation lounge</span>
-						</li>
-					</ul>
-				</CardContent>
-			</Card>
+					<CardHeader>
+						<div
+							class="mb-4 inline-flex rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 p-4 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
+						>
+							<svelte:component this={service.icon} class="size-6 text-primary" />
+						</div>
 
-			<Card
-				class="hover:shadow-lg-lg hover:shadow-lg-primary/10 border-primary/20 transition-all duration-300"
-			>
-				<CardHeader>
-					<div class="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
-						<SparklesIcon class="size-6 text-primary" />
-					</div>
-					<CardTitle>Advanced Skincare</CardTitle>
-				</CardHeader>
-				<CardContent class="space-y-3">
-					<p class="text-foreground/70">Science-backed facial treatments:</p>
-					<ul class="flex flex-col gap-2 text-sm text-foreground/70">
-						<li class="flex gap-2">
-							<span class="font-bold text-primary">•</span>
-							<span>Hydrating and anti-aging facials</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-primary">•</span>
-							<span>Microdermabrasion & chemical peels</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-primary">•</span>
-							<span>Acne and hyperpigmentation therapy</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-primary">•</span>
-							<span>Dermatologist-approved products</span>
-						</li>
-					</ul>
-				</CardContent>
-			</Card>
+						<CardTitle class="text-xl font-semibold tracking-wide">
+							{service.title}
+						</CardTitle>
+					</CardHeader>
 
-			<Card
-				class="hover:shadow-lg-lg hover:shadow-lg-primary/10 border-primary/20 transition-all duration-300"
-			>
-				<CardHeader>
-					<div class="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
-						<BrushIcon class="size-6 text-primary" />
-					</div>
-					<CardTitle>Nails & Makeup</CardTitle>
-				</CardHeader>
-				<CardContent class="space-y-3">
-					<p class="text-foreground/70">The finishing touches for your look:</p>
-					<ul class="flex flex-col gap-2 text-sm text-foreground/70">
-						<li class="flex gap-2">
-							<span class="font-bold text-accent">•</span>
-							<span>Luxury manicures and pedicures</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-accent">•</span>
-							<span>Gel and acrylic nail extensions</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-accent">•</span>
-							<span>Professional HD makeup</span>
-						</li>
-						<li class="flex gap-2">
-							<span class="font-bold text-accent">•</span>
-							<span>Eyelash extensions & brow shaping</span>
-						</li>
-					</ul>
-				</CardContent>
-			</Card>
+					<CardContent class="space-y-4">
+						<p class="text-foreground/70">{service.description}</p>
+
+						<ul class="flex flex-col gap-2 text-sm text-foreground/70">
+							{#each service.items as item}
+								<li
+									class="flex items-start gap-3 transition-transform duration-300 group-hover:translate-x-1"
+								>
+									<span class="mt-1 text-primary">✦</span>
+									<span>{item}</span>
+								</li>
+							{/each}
+						</ul>
+					</CardContent>
+				</Card>
+			{/each}
 		</div>
 	</div>
 </section>
+<div class="mb-16 text-center">
+	<h2 class="mb-4 text-3xl font-bold sm:text-4xl">Quality Assurance</h2>
+	<p class="mx-auto max-w-2xl text-lg text-foreground/70">
+		We only use the world's most trusted beauty brands
+	</p>
+</div>
+<section
+	class="grid grid-cols-1 bg-gradient-to-b from-transparent via-accent/5 to-transparent px-4 py-20 sm:py-32 lg:grid-cols-2"
+>
+	<div class="p-6 lg:p-1">
+		<UniqueGallery {data} />
+	</div>
 
-<section class="bg-gradient-to-b from-transparent via-accent/5 to-transparent px-4 py-20 sm:py-32">
 	<div class="mx-auto max-w-5xl">
-		<div class="mb-16 text-center">
-			<h2 class="mb-4 text-3xl font-bold sm:text-4xl">Quality Assurance</h2>
-			<p class="mx-auto max-w-2xl text-lg text-foreground/70">
-				We only use the world's most trusted beauty brands
-			</p>
-		</div>
-
-		<div class="grid gap-8 md:grid-cols-2">
+		<div class="grid gap-8 md:grid-cols-1">
 			<Card
 				class="hover:shadow-lg-lg hover:shadow-lg-accent/10 border-accent/20 transition-all duration-300"
 			>

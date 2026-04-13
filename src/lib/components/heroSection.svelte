@@ -76,7 +76,7 @@
 				<!-- Buttons -->
 				<div
 					transition:scale={{ delay: 300, duration: 500 }}
-					class="flex flex-col justify-start gap-4 sm:flex-row"
+					class="flex w-64 flex-col justify-start gap-4 justify-self-center sm:flex-row lg:w-full"
 				>
 					<Button
 						size="lg"

@@ -46,7 +46,7 @@
 		<nav class="hidden items-center gap-1 md:flex">
 			{#each menuItems as item (item.href)}
 				<Button
-					variant={page.url.pathname === item.href ? 'default' : 'ghost'}
+					variant={page.url.pathname === item.href ? 'secondary' : 'default'}
 					size="sm"
 					href={item.href}
 					onclick={() => handleMenuClick(item.href)}
