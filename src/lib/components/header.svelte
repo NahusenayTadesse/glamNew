@@ -56,7 +56,7 @@
 			{/each}
 		</nav>
 
-		<div class="flex flex-row items-center justify-end">
+		<div class=" hidden flex-row items-center justify-end lg:flex">
 			<div class="m-2">
 				<!-- Search and Auth -->
 			</div>
@@ -89,6 +89,12 @@
 								{item.label}
 							</Button>
 						{/each}
+						<div class="flex-row items-center justify-start pl-2">
+							<div class="m-2">
+								<!-- Search and Auth -->
+							</div>
+							<DarkMode />
+						</div>
 					</nav>
 				</SheetContent>
 			</Sheet>

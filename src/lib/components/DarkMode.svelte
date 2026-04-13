@@ -8,9 +8,7 @@
 </script>
 
 <DropdownMenu.Root>
-	<DropdownMenu.Trigger
-		class="{buttonVariants({ variant: 'outline', size: 'icon' })} bg-transparent!"
-	>
+	<DropdownMenu.Trigger class={buttonVariants({ variant: 'default', size: 'icon' })}>
 		<SunIcon
 			class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all! dark:scale-0 dark:-rotate-90"
 		/>
