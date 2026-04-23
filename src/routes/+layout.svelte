@@ -68,6 +68,29 @@
 
 <svelte:head>
 	<link rel="icon" href="/logo.png" />
+	<meta name="title" content="Glam Beauty & Spa | 24/7 Luxury Salon in Addis Ababa" />
+	<meta
+		name="description"
+		content="Experience Addis Ababa's top-rated 24-hour spa & salon. From professional hair styling to organic skincare and wellness massages. Book your luxury treatment today!"
+	/>
+
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://glambeautyandspa.com/" />
+	<meta property="og:title" content="Glam Beauty & Spa | Addis Ababa's Premier 24/7 Luxury Salon" />
+	<meta
+		property="og:description"
+		content="Open 24/7 for your convenience. World-class hair, skin, and massage services in the heart of Addis. Click to book your session now."
+	/>
+	<meta property="og:image" content="https://glambeautyandspa.com/og-image.jpg" />
+
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:url" content="https://glambeautyandspa.com/" />
+	<meta property="twitter:title" content="Glam Beauty & Spa | 24/7 Luxury Salon Addis Ababa" />
+	<meta
+		property="twitter:description"
+		content="Premium beauty services 24/7. Expert hair, skin, and massage in Addis Ababa. Experience luxury anytime."
+	/>
+	<meta property="twitter:image" content="https://glambeautyandspa.com/og-image.jpg" />
 </svelte:head>
 <ModeWatcher />
 {#each particles as p (p)}

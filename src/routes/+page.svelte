@@ -23,7 +23,32 @@
 </script>
 
 <svelte:head>
-	<title>Home | Glam Beauty Salon</title>
+	<title>Glam Beauty | 24/7 Premium Spa & Beauty Salon in Addis Ababa</title>
+	<meta name="title" content="Glam Beauty | 24/7 Premium Spa & Beauty Salon in Addis Ababa" />
+	<meta
+		name="description"
+		content="Addis Ababa's premier 24-hour beauty salon and spa. Professional hair styling, organic skincare, and wellness massage available anytime. Visit us in Addis for luxury care."
+	/>
+	<meta
+		name="keywords"
+		content="spa in Addis Ababa, 24 hour spa Addis, beauty salon Addis Ababa, massage Addis Ababa, hair salon Addis, best spa Ethiopia, late night beauty services"
+	/>
+
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://yourwebsite.com/" />
+	<meta property="og:title" content="Glam Beauty | 24/7 Luxury Spa & Salon Addis Ababa" />
+	<meta
+		property="og:description"
+		content="Open 24 hours. Experience world-class beauty treatments and wellness in the heart of Addis Ababa. Book your midnight glow-up today."
+	/>
+	<meta property="og:image" content="https://yourwebsite.com/glam-preview.jpg" />
+
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:title" content="Glam Beauty | 24/7 Spa & Salon Addis Ababa" />
+	<meta
+		property="twitter:description"
+		content="Premium beauty services 24/7. The best hair, skin, and massage experts in Addis Ababa."
+	/>
 </svelte:head>
 
 <HeroSection {src} images={data?.gallery} />

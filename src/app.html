@@ -3,6 +3,48 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "BeautySalon",
+				"name": "Glam Beauty & Spa",
+				"image": "https://glambeautyandspa.com/logoWhite.png",
+				"@id": "https://glambeautyandspa.com",
+				"url": "https://glambeautyandspa.com",
+				"telephone": "+251 996983244",
+				// "priceRange": "$$",
+				"address": {
+					"@type": "PostalAddress",
+					"streetAddress": "22 Mazoria, Behind Bedria Mall",
+					"addressLocality": "Addis Ababa",
+					"addressRegion": "Addis Ababa",
+					"addressCountry": "ET"
+				},
+				"geo": {
+					"@type": "GeoCoordinates",
+					"latitude": 9.007477438019881,
+					"longitude": 38.78945456070164
+				},
+				"openingHoursSpecification": {
+					"@type": "OpeningHoursSpecification",
+					"dayOfWeek": [
+						"Monday",
+						"Tuesday",
+						"Wednesday",
+						"Thursday",
+						"Friday",
+						"Saturday",
+						"Sunday"
+					],
+					"opens": "00:00",
+					"closes": "23:59"
+				},
+				"sameAs": [
+					"https://www.facebook.com/glambeautyaddis",
+					"https://www.instagram.com/glambeautyaddis"
+				]
+			}
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

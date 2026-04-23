@@ -17,7 +17,7 @@
 
 		{ label: 'About Us', href: '/about-us' },
 
-		{ label: 'Shop', href: '/shop' },
+		// { label: 'Shop', href: '/shop' },
 		{ label: 'Contact Us', href: '/contact-us' }
 	];
 </script>

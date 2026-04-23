@@ -59,6 +59,10 @@
 	];
 </script>
 
+<svelte:head>
+	<title>About Us - Glam Beauty and Spa</title>
+</svelte:head>
+
 <section
 	class="relative h-9/10 overflow-hidden bg-primary bg-cover bg-center px-4 py-20 sm:py-32"
 	style="background-image: url('/files/{data?.gallery[
